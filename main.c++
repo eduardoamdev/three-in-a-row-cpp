@@ -5,12 +5,41 @@ void draw(string boxes[9]) {
   cout << "-------------\n| " << boxes[0] << " | " << boxes[1] << " | " << boxes[2] << " |\n-------------\n| " << boxes[3] << " | " << boxes[4] << " | " << boxes[5] << " |\n-------------\n| " << boxes[6] << " | " << boxes[7] << " | " << boxes[8] << " |\n-------------\n";
 }
 
+bool checkWinner(string player, string boxes[9]) {
+  bool winner = false;
+
+  string symbol;
+
+  if(player == "1") {
+    symbol = "x";
+  }
+
+  if(player == "2") {
+    symbol = "o";
+  }
+
+  if(
+    (boxes[0] == symbol && boxes[1] == symbol && boxes[2] == symbol) ||
+    (boxes[3] == symbol && boxes[4] == symbol && boxes[5] == symbol) ||
+    (boxes[6] == symbol && boxes[7] == symbol && boxes[8] == symbol) ||
+    (boxes[0] == symbol && boxes[3] == symbol && boxes[6] == symbol) ||
+    (boxes[1] == symbol && boxes[4] == symbol && boxes[7] == symbol) ||
+    (boxes[2] == symbol && boxes[5] == symbol && boxes[8] == symbol) ||
+    (boxes[0] == symbol && boxes[4] == symbol && boxes[8] == symbol) ||
+    (boxes[2] == symbol && boxes[4] == symbol && boxes[6] == symbol)
+  ) {
+    winner = true;
+  }
+
+  return winner;
+}
+
 int main() {
-  cout << "Bienvenido al tres en raya!!! \nPulsa Enter para continuar";
+  cout << "Welcome to three in a row!!! \nPush enter to continue";
 
   cin.get();
 
-  cout << "Este va a ser el inicio del juego\n";
+  cout << "Let's play\n";
 
   bool finish = false;
 
@@ -33,11 +62,19 @@ int main() {
       symbol = "o";
     }
 
-    cout << "Elige casilla\n";
+    cout << "Select a box\n";
 
     cin >> box;
 
     boxes[box] = symbol;
+
+    bool winner = checkWinner(player, boxes);
+
+    if(winner == true) {
+      cout << "The winner is player " << player << "\n";
+
+      finish = true;
+    }
 
     if(player == "1") {
       player = "2";
@@ -45,8 +82,6 @@ int main() {
       player = "1";
     }
   }
-
-  
 
   return 0;
 }
