@@ -2,7 +2,16 @@
 using namespace std;
 
 void draw(string boxes[9]) {
-  cout << "-------------\n| " << boxes[0] << " | " << boxes[1] << " | " << boxes[2] << " |\n-------------\n| " << boxes[3] << " | " << boxes[4] << " | " << boxes[5] << " |\n-------------\n| " << boxes[6] << " | " << boxes[7] << " | " << boxes[8] << " |\n-------------\n";
+  cout << "-------------\n| " 
+    << boxes[0] << " | " 
+    << boxes[1] << " | " 
+    << boxes[2] << " |\n-------------\n| " 
+    << boxes[3] << " | " 
+    << boxes[4] << " | " 
+    << boxes[5] << " |\n-------------\n| " 
+    << boxes[6] << " | " 
+    << boxes[7] << " | " 
+    << boxes[8] << " |\n-------------\n";
 }
 
 bool checkWinner(string player, string boxes[9]) {
@@ -47,6 +56,8 @@ int main() {
 
   string boxes [9] = { " ", " ", " ", " ", " ", " ", " ", " ", " " };
 
+  int turns = 0;
+
   while(finish == false){
     draw(boxes);
 
@@ -62,18 +73,56 @@ int main() {
       symbol = "o";
     }
 
-    cout << "Select a box\n";
+    bool correctInput = false;
 
-    cin >> box;
+    while(correctInput == false){
+      cout << "Select a box\n";
+
+      int input;
+
+      cin >> input;
+
+      bool repeated = false;
+
+      int boxesIndex = 0;
+
+      while(repeated == false && boxesIndex < 9) {
+        if(boxesIndex == input && boxes[boxesIndex] != " ") {
+          repeated = true;
+        } else {
+          boxesIndex++;
+        }
+      }
+
+      if(input >= 0 && input < 9 && repeated == false) {
+        box = input;
+
+        correctInput = true;
+      }
+    }
 
     boxes[box] = symbol;
 
     bool winner = checkWinner(player, boxes);
 
     if(winner == true) {
+      draw(boxes);
+
       cout << "The winner is player " << player << "\n";
 
       finish = true;
+
+      break;
+    }
+
+    turns++;
+
+    if(turns == 9){
+      cout << "This is a draw\n";
+
+      finish = true;
+
+      break;
     }
 
     if(player == "1") {
